@@ -7,6 +7,3 @@ export interface IAuth {
     }>;
     signIn(signInDto: SignInDto, res: Response): Promise<Response>;
 }
-export interface TokenPayload {
-    id: string;
-}

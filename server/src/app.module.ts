@@ -11,7 +11,11 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtTokenService } from './jwt-token/jwt-token.service';
 import { UserService } from './user/user.service';
 import { JwtService } from '@nestjs/jwt';
+import { RoomService } from './room/room.service';
+import { RoomController } from './room/room.controller';
+import { RoomModule } from './room/room.module';
 import * as path from 'path';
+import { RoomGateway } from './room/room.gateway';
 
 @Module({
   imports: [
@@ -23,14 +27,18 @@ import * as path from 'path';
       isGlobal: true,
       envFilePath: path.resolve(__dirname, '../../.env'),
     }),
+
+    RoomModule,
   ],
-  controllers: [AppController, AuthController],
+  controllers: [AppController, AuthController, RoomController],
   providers: [
     AppService,
     AuthService,
     JwtTokenService,
     UserService,
     JwtService,
+    RoomService,
+    RoomGateway,
   ],
 })
 export class AppModule {}

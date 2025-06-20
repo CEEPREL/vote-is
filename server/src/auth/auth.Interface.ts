@@ -13,7 +13,3 @@ export interface IAuth {
   //   updateResetPassword(): Promise<{ msg: string }>;
   //   changePassword(): Promise<{ msg: string }>;
 }
-
-export interface TokenPayload {
-  id: string;
-}

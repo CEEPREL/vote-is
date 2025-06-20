@@ -19,7 +19,11 @@ const config_1 = require("@nestjs/config");
 const jwt_token_service_1 = require("./jwt-token/jwt-token.service");
 const user_service_1 = require("./user/user.service");
 const jwt_1 = require("@nestjs/jwt");
+const room_service_1 = require("./room/room.service");
+const room_controller_1 = require("./room/room.controller");
+const room_module_1 = require("./room/room.module");
 const path = require("path");
+const room_gateway_1 = require("./room/room.gateway");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -33,14 +37,17 @@ exports.AppModule = AppModule = __decorate([
                 isGlobal: true,
                 envFilePath: path.resolve(__dirname, '../../.env'),
             }),
+            room_module_1.RoomModule,
         ],
-        controllers: [app_controller_1.AppController, auth_controller_1.AuthController],
+        controllers: [app_controller_1.AppController, auth_controller_1.AuthController, room_controller_1.RoomController],
         providers: [
             app_service_1.AppService,
             auth_service_1.AuthService,
             jwt_token_service_1.JwtTokenService,
             user_service_1.UserService,
             jwt_1.JwtService,
+            room_service_1.RoomService,
+            room_gateway_1.RoomGateway,
         ],
     })
 ], AppModule);
