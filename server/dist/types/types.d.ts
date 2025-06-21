@@ -1,12 +1,12 @@
 export interface TokenPayload {
-  id: string;
+    id: string;
 }
 export interface UserPayload {
-  id: string;
-  username?: string;
+    id: string;
+    username?: string;
 }
 declare module 'express' {
-  interface Request {
-    user?: UserPayload;
-  }
+    interface Request {
+        user?: UserPayload;
+    }
 }

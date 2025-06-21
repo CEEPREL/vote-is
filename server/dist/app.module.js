@@ -24,6 +24,7 @@ const room_controller_1 = require("./room/room.controller");
 const room_module_1 = require("./room/room.module");
 const path = require("path");
 const room_gateway_1 = require("./room/room.gateway");
+const vote_module_1 = require("./vote/vote.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -38,6 +39,7 @@ exports.AppModule = AppModule = __decorate([
                 envFilePath: path.resolve(__dirname, '../../.env'),
             }),
             room_module_1.RoomModule,
+            vote_module_1.VoteModule,
         ],
         controllers: [app_controller_1.AppController, auth_controller_1.AuthController, room_controller_1.RoomController],
         providers: [

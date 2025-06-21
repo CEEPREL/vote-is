@@ -1,12 +1,23 @@
 import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway({
-  cors: { origin: '*', credentials: true },
+  cors: {
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  },
 })
 export class RoomGateway {
   @WebSocketServer()
   server: Server;
+
+  handleConnection(client: Socket) {
+    console.log(`🔌 Connected: ${client.data} ${client.id} `);
+  }
+
+  handleDisconnect(client: Socket) {
+    console.log(`❌ Disconnected: ${client.id}`);
+  }
 
   broadcastRoomCreated(room: any) {
     this.server.emit('roomCreated', room);

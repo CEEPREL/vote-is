@@ -16,6 +16,7 @@ import { RoomController } from './room/room.controller';
 import { RoomModule } from './room/room.module';
 import * as path from 'path';
 import { RoomGateway } from './room/room.gateway';
+import { VoteModule } from './vote/vote.module';
 
 @Module({
   imports: [
@@ -29,6 +30,8 @@ import { RoomGateway } from './room/room.gateway';
     }),
 
     RoomModule,
+
+    VoteModule,
   ],
   controllers: [AppController, AuthController, RoomController],
   providers: [
