@@ -19,7 +19,6 @@ let VoteService = class VoteService {
     }
     async castVote(voteDto, userId) {
         const { optionId, roomId } = voteDto;
-        console.log('🧾 Voting Attempt by userId:', userId);
         try {
             const option = await this.prisma.option.findUnique({
                 where: { id: optionId },
