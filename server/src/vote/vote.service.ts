@@ -13,7 +13,6 @@ export class VoteService {
 
   async castVote(voteDto: VoteDto, userId: string) {
     const { optionId, roomId } = voteDto;
-    console.log('🧾 Voting Attempt by userId:', userId); // 👈
 
     // Validate optionId and roomId before proceeding
     try {

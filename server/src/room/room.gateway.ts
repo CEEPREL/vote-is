@@ -3,7 +3,7 @@ import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway({
   cors: {
-    origin: process.env.CLIENT_URL,
+    origin: process.env.CORS_ORIGIN,
     credentials: true,
   },
 })

@@ -32,7 +32,7 @@ __decorate([
 exports.RoomGateway = RoomGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({
         cors: {
-            origin: process.env.CLIENT_URL,
+            origin: process.env.CORS_ORIGIN,
             credentials: true,
         },
     })

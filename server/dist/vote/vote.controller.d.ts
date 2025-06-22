@@ -7,10 +7,10 @@ export declare class VoteController {
         message: string;
         vote: {
             id: string;
-            optionId: string;
             userId: string | null;
             roomId: string;
             createdAt: Date;
+            optionId: string;
         };
     }>;
 }

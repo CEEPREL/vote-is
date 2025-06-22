@@ -5,22 +5,22 @@ export declare class VoteService {
     constructor(prisma: PrismaService);
     castVote(voteDto: VoteDto, userId: string): Promise<{
         id: string;
-        optionId: string;
         userId: string | null;
         roomId: string;
         createdAt: Date;
+        optionId: string;
     }>;
     getOptionsWithVoteCounts(roomId: string): Promise<{
         voteCount: number;
         votes: {
             id: string;
-            optionId: string;
             userId: string | null;
             roomId: string;
             createdAt: Date;
+            optionId: string;
         }[];
         id: string;
-        roomId: string;
         text: string;
+        roomId: string;
     }[]>;
 }
