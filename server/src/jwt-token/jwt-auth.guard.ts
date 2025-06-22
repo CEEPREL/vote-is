@@ -29,7 +29,6 @@ export class JwtAuthGuard implements CanActivate {
   }
   // Checkes for token in header or cookies
   private extractTokenFromRequest(request: any): string | null {
-    // Try Authorization header
     if (request.headers.authorization?.startsWith('Bearer ')) {
       return request.headers.authorization.split(' ')[1];
     }

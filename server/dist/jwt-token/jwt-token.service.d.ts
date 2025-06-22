@@ -4,7 +4,7 @@ export declare class JwtTokenService {
     private readonly jwtService;
     private readonly configService;
     constructor(jwtService: JwtService, configService: ConfigService);
-    generateToken(userId: string): {
+    generateToken(userId: string, username: string, email: string): {
         token: string;
         expiresAt: Date;
     };

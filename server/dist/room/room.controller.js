@@ -17,14 +17,21 @@ const common_1 = require("@nestjs/common");
 const create_room_dto_1 = require("./dto/create-room.dto");
 const room_service_1 = require("./room.service");
 const jwt_auth_guard_1 = require("../jwt-token/jwt-auth.guard");
+const vote_service_1 = require("../vote/vote.service");
 let RoomController = class RoomController {
     roomService;
-    constructor(roomService) {
+    voteService;
+    constructor(roomService, voteService) {
         this.roomService = roomService;
+        this.voteService = voteService;
     }
     async create(dto, req) {
         const user = req.user;
         return this.roomService.createRoom(dto, user.id);
+    }
+    async getUserRooms(req) {
+        const userId = req.user.id;
+        return this.roomService.getRoomsForUser(userId);
     }
     async getRoomBySlug(id) {
         const room = await this.roomService.getRoomBySlug(id);
@@ -46,6 +53,14 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], RoomController.prototype, "create", null);
 __decorate([
+    (0, common_1.Get)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], RoomController.prototype, "getUserRooms", null);
+__decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
@@ -55,6 +70,7 @@ __decorate([
 ], RoomController.prototype, "getRoomBySlug", null);
 exports.RoomController = RoomController = __decorate([
     (0, common_1.Controller)('rooms'),
-    __metadata("design:paramtypes", [room_service_1.RoomService])
+    __metadata("design:paramtypes", [room_service_1.RoomService,
+        vote_service_1.VoteService])
 ], RoomController);
 //# sourceMappingURL=room.controller.js.map

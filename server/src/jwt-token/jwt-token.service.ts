@@ -10,14 +10,22 @@ export class JwtTokenService {
     private readonly configService: ConfigService,
   ) {}
 
-  generateToken(userId: string): { token: string; expiresAt: Date } {
+  generateToken(
+    userId: string,
+    username: string,
+    email: string,
+  ): { token: string; expiresAt: Date } {
     const expirationMs = parseInt(
       this.configService.getOrThrow('JWT_EXPIRATION'),
       10,
     );
     const expiresAt = new Date(Date.now() + expirationMs);
 
-    const payload: TokenPayload = { id: userId };
+    const payload: TokenPayload = {
+      id: userId,
+      username: username,
+      email: email,
+    };
     const token = this.jwtService.sign(payload, {
       secret: this.configService.getOrThrow('JWT_SECRET'),
       expiresIn: `${expirationMs}ms`,

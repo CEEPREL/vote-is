@@ -44,33 +44,42 @@ export class VoteGateway implements OnGatewayConnection, OnGatewayDisconnect {
       console.log(`❌ Socket auth failed: ${err.message}`);
       client.disconnect();
     }
-    // const { roomId } = client.handshake.query;
-    // if (roomId) client.join(roomId as string);
   }
 
   handleDisconnect(client: Socket) {
-    const { roomId } = client.handshake.query;
-    if (roomId) client.leave(roomId as string);
+    // Optionally clean up rooms or notify others
+    console.log(`Client disconnected: ${client.id}`);
+  }
+
+  @SubscribeMessage('joinRoom')
+  handleJoinRoom(
+    @MessageBody() data: { roomId: string },
+    @ConnectedSocket() client: Socket,
+  ) {
+    if (data.roomId) {
+      client.join(data.roomId);
+      client.to(data.roomId).emit('userJoined', `someone joined the room`);
+    }
   }
 
   @SubscribeMessage('castVote')
   async handleCastVote(
-    @MessageBody() voteDto: VoteDto & { userId?: string },
+    @MessageBody() voteDto: VoteDto,
     @ConnectedSocket() client: Socket,
   ) {
     try {
-      const userId = client.data.user?.id || null;
-      const vote = await this.voteService.castVote(voteDto, userId);
-
-      // Fetch updated vote counts per option (you'll need to implement this in VoteService)
+      const user = client.data.user;
+      if (!user) throw new UnauthorizedException('Not authenticated');
+      const vote = await this.voteService.castVote(voteDto, user.id);
       const updatedOptions = await this.voteService.getOptionsWithVoteCounts(
         voteDto.roomId,
       );
 
-      // Broadcast updated votes info to all clients in the room
-      this.server
-        .to(voteDto.roomId)
-        .emit('voteUpdate', { vote, updatedOptions });
+      this.server.to(voteDto.roomId).emit('voteUpdate', {
+        optionId: vote.optionId,
+        updatedOptions,
+      });
+
       console.log('Received vote update:', vote, updatedOptions);
       return { status: 'success', vote };
     } catch (error) {

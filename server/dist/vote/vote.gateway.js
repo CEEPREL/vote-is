@@ -16,6 +16,7 @@ exports.VoteGateway = void 0;
 const websockets_1 = require("@nestjs/websockets");
 const socket_io_1 = require("socket.io");
 const vote_service_1 = require("./vote.service");
+const vote_dto_1 = require("./dto/vote.dto");
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const cookie = require("cookie");
@@ -48,18 +49,25 @@ let VoteGateway = class VoteGateway {
         }
     }
     handleDisconnect(client) {
-        const { roomId } = client.handshake.query;
-        if (roomId)
-            client.leave(roomId);
+        console.log(`Client disconnected: ${client.id}`);
+    }
+    handleJoinRoom(data, client) {
+        if (data.roomId) {
+            client.join(data.roomId);
+            client.to(data.roomId).emit('userJoined', `someone joined the room`);
+        }
     }
     async handleCastVote(voteDto, client) {
         try {
-            const userId = client.data.user?.id || null;
-            const vote = await this.voteService.castVote(voteDto, userId);
+            const user = client.data.user;
+            if (!user)
+                throw new common_1.UnauthorizedException('Not authenticated');
+            const vote = await this.voteService.castVote(voteDto, user.id);
             const updatedOptions = await this.voteService.getOptionsWithVoteCounts(voteDto.roomId);
-            this.server
-                .to(voteDto.roomId)
-                .emit('voteUpdate', { vote, updatedOptions });
+            this.server.to(voteDto.roomId).emit('voteUpdate', {
+                optionId: vote.optionId,
+                updatedOptions,
+            });
             console.log('Received vote update:', vote, updatedOptions);
             return { status: 'success', vote };
         }
@@ -80,11 +88,20 @@ __decorate([
     __metadata("design:type", socket_io_1.Server)
 ], VoteGateway.prototype, "server", void 0);
 __decorate([
-    (0, websockets_1.SubscribeMessage)('castVote'),
+    (0, websockets_1.SubscribeMessage)('joinRoom'),
     __param(0, (0, websockets_1.MessageBody)()),
     __param(1, (0, websockets_1.ConnectedSocket)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, socket_io_1.Socket]),
+    __metadata("design:returntype", void 0)
+], VoteGateway.prototype, "handleJoinRoom", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('castVote'),
+    __param(0, (0, websockets_1.MessageBody)()),
+    __param(1, (0, websockets_1.ConnectedSocket)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [vote_dto_1.VoteDto,
+        socket_io_1.Socket]),
     __metadata("design:returntype", Promise)
 ], VoteGateway.prototype, "handleCastVote", null);
 exports.VoteGateway = VoteGateway = __decorate([

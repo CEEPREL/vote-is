@@ -24,4 +24,10 @@ export class AuthController implements IAuth {
   ): Promise<Response> {
     return this.authService.signIn(signInDto, res);
   }
+
+  @Post('signout')
+  signOut(@Res() res: Response) {
+    const result = this.authService.signOut(res);
+    return res.json(result);
+  }
 }

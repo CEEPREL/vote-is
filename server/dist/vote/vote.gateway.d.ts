@@ -10,16 +10,17 @@ export declare class VoteGateway implements OnGatewayConnection, OnGatewayDiscon
     constructor(voteService: VoteService, jwtService: JwtService);
     handleConnection(client: Socket): void;
     handleDisconnect(client: Socket): void;
-    handleCastVote(voteDto: VoteDto & {
-        userId?: string;
-    }, client: Socket): Promise<{
+    handleJoinRoom(data: {
+        roomId: string;
+    }, client: Socket): void;
+    handleCastVote(voteDto: VoteDto, client: Socket): Promise<{
         status: string;
         vote: {
             id: string;
+            optionId: string;
             userId: string | null;
             roomId: string;
             createdAt: Date;
-            optionId: string;
         };
         message?: undefined;
     } | {

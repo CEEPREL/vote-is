@@ -57,11 +57,20 @@ let VoteService = class VoteService {
                     votes: true,
                 },
             });
+            const decisionRoom = await this.prisma.decisionRoom.findUnique({
+                where: { id: roomId },
+                select: {
+                    title: true,
+                },
+            });
             const optionsWithVoteCounts = options.map((option) => ({
                 ...option,
                 voteCount: option.votes.length,
             }));
-            return optionsWithVoteCounts;
+            return {
+                title: decisionRoom?.title || '',
+                options: optionsWithVoteCounts,
+            };
         }
         catch (error) {
             console.error('VoteService Error:', error);
