@@ -14,6 +14,12 @@ const websockets_1 = require("@nestjs/websockets");
 const socket_io_1 = require("socket.io");
 let RoomGateway = class RoomGateway {
     server;
+    handleConnection(client) {
+        console.log(`🔌 Connected: ${client.data} ${client.id} `);
+    }
+    handleDisconnect(client) {
+        console.log(`❌ Disconnected: ${client.id}`);
+    }
     broadcastRoomCreated(room) {
         this.server.emit('roomCreated', room);
     }
@@ -25,7 +31,10 @@ __decorate([
 ], RoomGateway.prototype, "server", void 0);
 exports.RoomGateway = RoomGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({
-        cors: { origin: '*', credentials: true },
+        cors: {
+            origin: process.env.CLIENT_URL,
+            credentials: true,
+        },
     })
 ], RoomGateway);
 //# sourceMappingURL=room.gateway.js.map

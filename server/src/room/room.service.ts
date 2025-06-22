@@ -33,6 +33,7 @@ export class RoomService {
     return newRoom;
   }
 
+  //Get room by id
   async getRoomBySlug(id: string) {
     const room = await this.prisma.decisionRoom.findUnique({
       where: { id },

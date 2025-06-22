@@ -10,8 +10,8 @@ export declare class RoomController {
             text: string;
             roomId: string;
         }[];
-        title: string;
         description: string;
+        title: string;
         deadline: Date;
     }>;
     getRoomBySlug(id: string): Promise<{
@@ -35,9 +35,9 @@ export declare class RoomController {
                 username: string;
             };
         } & {
+            description: string;
             id: string;
             title: string;
-            description: string;
             creatorId: string;
             deadline: Date;
         };
