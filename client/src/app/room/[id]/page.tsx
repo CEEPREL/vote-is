@@ -13,7 +13,6 @@ export default function RoomPage() {
   const params = useParams();
   const roomId = params.id as string;
   const { user, token } = useAuth();
-  const userName = user?.name ?? 'Guest';
 
   const [options, setOptions] = useState<VoteOption[]>([]);
   const [title, setTitle] = useState('');

@@ -1,9 +1,10 @@
 'use client';
 
-import { useForm, useFieldArray, Controller } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/auth';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -44,7 +45,7 @@ export default function CreateRoomPage() {
     control,
     name: 'options',
   });
-  const token = localStorage.getItem('token');
+  const { token } = useAuth();
 
   const onSubmit = async (data: FormData) => {
     try {
