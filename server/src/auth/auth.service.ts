@@ -21,7 +21,19 @@ export class AuthService implements IAuth {
     signUpDto: SignUpDto,
   ): Promise<{ data: string; statusCode: number }> {
     const hashedPassword = await bcrypt.hash(signUpDto.password, 10);
+    const existingUser = await this.prismaDB.user.findFirst({
+      where: {
+        OR: [{ email: signUpDto.email }, { username: signUpDto.username }],
+      },
+    });
 
+    if (existingUser) {
+      const error = new Error(
+        'Either username or email has already been chosen',
+      );
+      (error as any).statusCode = 400;
+      throw error;
+    }
     const user = await this.prismaDB.user.create({
       data: {
         email: signUpDto.email,
@@ -50,7 +62,11 @@ export class AuthService implements IAuth {
         throw new Error('Invalid credentials');
       }
 
-      const { token, expiresAt } = this.jwtTokenService.generateToken(user.id);
+      const { token, expiresAt } = this.jwtTokenService.generateToken(
+        user.id,
+        user.username,
+        user.email,
+      );
 
       res.cookie('accessToken', token, {
         httpOnly: true,
@@ -64,11 +80,21 @@ export class AuthService implements IAuth {
         expiresAt,
         user: {
           username: user.username,
+          email: user.email,
         },
       });
     } catch (error) {
       console.error(error);
       throw new UnauthorizedException('Invalid credentials');
     }
+  }
+  signOut(response: Response) {
+    response.clearCookie('accessToken', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+    });
+    return { message: 'Successfully signed out' };
   }
 }

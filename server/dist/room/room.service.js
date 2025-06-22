@@ -61,6 +61,32 @@ let RoomService = class RoomService {
         }
         return room;
     }
+    async getRoomsForUser(userId) {
+        const createdRooms = await this.prisma.decisionRoom.findMany({
+            where: { creatorId: userId },
+            select: { id: true },
+        });
+        const votedRooms = await this.prisma.vote.findMany({
+            where: { userId },
+            select: { roomId: true },
+            orderBy: { createdAt: 'asc' },
+        });
+        const roomIdsSet = new Set([
+            ...createdRooms.map((r) => r.id),
+            ...votedRooms.map((v) => v.roomId),
+        ]);
+        const uniqueRoomIds = Array.from(roomIdsSet);
+        const rooms = await this.prisma.decisionRoom.findMany({
+            where: { id: { in: uniqueRoomIds } },
+            select: {
+                id: true,
+                title: true,
+                description: true,
+            },
+            orderBy: { id: 'asc' },
+        });
+        return rooms;
+    }
 };
 exports.RoomService = RoomService;
 exports.RoomService = RoomService = __decorate([

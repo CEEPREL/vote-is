@@ -39,4 +39,9 @@ export declare class RoomService {
         creatorId: string;
         deadline: Date;
     }>;
+    getRoomsForUser(userId: string): Promise<{
+        id: string;
+        title: string;
+        description: string;
+    }[]>;
 }

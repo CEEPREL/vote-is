@@ -13,4 +13,23 @@ export declare class VoteController {
             optionId: string;
         };
     }>;
+    getVotesForRoom(roomId: string): Promise<{
+        message: string;
+        votes: {
+            title: string;
+            options: {
+                voteCount: number;
+                votes: {
+                    id: string;
+                    userId: string | null;
+                    roomId: string;
+                    createdAt: Date;
+                    optionId: string;
+                }[];
+                id: string;
+                text: string;
+                roomId: string;
+            }[];
+        };
+    }>;
 }

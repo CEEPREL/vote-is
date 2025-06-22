@@ -27,6 +27,10 @@ let VoteController = class VoteController {
         const vote = await this.voteService.castVote(voteDto, userId);
         return { message: 'Vote cast successfully', vote };
     }
+    async getVotesForRoom(roomId) {
+        const votes = await this.voteService.getOptionsWithVoteCounts(roomId);
+        return { message: 'Votes fetched successfully', votes };
+    }
 };
 exports.VoteController = VoteController;
 __decorate([
@@ -38,6 +42,14 @@ __decorate([
     __metadata("design:paramtypes", [vote_dto_1.VoteDto, Object]),
     __metadata("design:returntype", Promise)
 ], VoteController.prototype, "vote", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)(':roomId'),
+    __param(0, (0, common_1.Param)('roomId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], VoteController.prototype, "getVotesForRoom", null);
 exports.VoteController = VoteController = __decorate([
     (0, common_1.Controller)('vote'),
     __metadata("design:paramtypes", [vote_service_1.VoteService])

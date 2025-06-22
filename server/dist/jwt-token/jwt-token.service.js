@@ -20,10 +20,14 @@ let JwtTokenService = class JwtTokenService {
         this.jwtService = jwtService;
         this.configService = configService;
     }
-    generateToken(userId) {
+    generateToken(userId, username, email) {
         const expirationMs = parseInt(this.configService.getOrThrow('JWT_EXPIRATION'), 10);
         const expiresAt = new Date(Date.now() + expirationMs);
-        const payload = { id: userId };
+        const payload = {
+            id: userId,
+            username: username,
+            email: email,
+        };
         const token = this.jwtService.sign(payload, {
             secret: this.configService.getOrThrow('JWT_SECRET'),
             expiresIn: `${expirationMs}ms`,

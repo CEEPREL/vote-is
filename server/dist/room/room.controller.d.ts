@@ -1,9 +1,11 @@
 import { CreateRoomDto } from './dto/create-room.dto';
 import { RoomService } from './room.service';
 import { Request } from 'express';
+import { VoteService } from 'src/vote/vote.service';
 export declare class RoomController {
     private readonly roomService;
-    constructor(roomService: RoomService);
+    private readonly voteService;
+    constructor(roomService: RoomService, voteService: VoteService);
     create(dto: CreateRoomDto, req: Request): Promise<{
         options: {
             id: string;
@@ -14,6 +16,11 @@ export declare class RoomController {
         description: string;
         deadline: Date;
     }>;
+    getUserRooms(req: any): Promise<{
+        id: string;
+        title: string;
+        description: string;
+    }[]>;
     getRoomBySlug(id: string): Promise<{
         statusCode: number;
         message: string;

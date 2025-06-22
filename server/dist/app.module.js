@@ -25,6 +25,7 @@ const room_module_1 = require("./room/room.module");
 const path = require("path");
 const room_gateway_1 = require("./room/room.gateway");
 const vote_module_1 = require("./vote/vote.module");
+const vote_service_1 = require("./vote/vote.service");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -50,6 +51,7 @@ exports.AppModule = AppModule = __decorate([
             jwt_1.JwtService,
             room_service_1.RoomService,
             room_gateway_1.RoomGateway,
+            vote_service_1.VoteService,
         ],
     })
 ], AppModule);

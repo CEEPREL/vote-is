@@ -16,4 +16,7 @@ export declare class AuthService implements IAuth {
         statusCode: number;
     }>;
     signIn(signInDto: SignInDto, res: Response): Promise<Response>;
+    signOut(response: Response): {
+        message: string;
+    };
 }

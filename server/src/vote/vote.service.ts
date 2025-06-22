@@ -62,12 +62,21 @@ export class VoteService {
           votes: true,
         },
       });
+      const decisionRoom = await this.prisma.decisionRoom.findUnique({
+        where: { id: roomId },
+        select: {
+          title: true,
+        },
+      });
       // Calculate vote counts for each option
       const optionsWithVoteCounts = options.map((option) => ({
         ...option,
         voteCount: option.votes.length,
       }));
-      return optionsWithVoteCounts;
+      return {
+        title: decisionRoom?.title || '', // fallback in case it's null
+        options: optionsWithVoteCounts,
+      };
     } catch (error) {
       console.error('VoteService Error:', error);
       throw new InternalServerErrorException(

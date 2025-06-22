@@ -11,16 +11,19 @@ export declare class VoteService {
         optionId: string;
     }>;
     getOptionsWithVoteCounts(roomId: string): Promise<{
-        voteCount: number;
-        votes: {
+        title: string;
+        options: {
+            voteCount: number;
+            votes: {
+                id: string;
+                userId: string | null;
+                roomId: string;
+                createdAt: Date;
+                optionId: string;
+            }[];
             id: string;
-            userId: string | null;
+            text: string;
             roomId: string;
-            createdAt: Date;
-            optionId: string;
         }[];
-        id: string;
-        text: string;
-        roomId: string;
-    }[]>;
+    }>;
 }

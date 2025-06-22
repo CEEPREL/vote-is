@@ -10,4 +10,5 @@ export declare class AuthController implements IAuth {
         statusCode: number;
     }>;
     signIn(signInDto: SignInDto, res: Response): Promise<Response>;
+    signOut(res: Response): Response<any, Record<string, any>>;
 }

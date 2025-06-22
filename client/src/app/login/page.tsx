@@ -3,12 +3,14 @@
 import { useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useAuth } from '@/context/auth';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { login } = useAuth();
 
   const [form, setForm] = useState({ identifier: '', password: '' });
   const [error, setError] = useState('');
@@ -42,9 +44,13 @@ export default function LoginPage() {
       }
 
       const data = await res.json();
-      console.log('Login success:', data);
+      const token = data.token;
+      localStorage.setItem('token', token);
+      login();
+      console.log('Login success:', data.user);
 
       // Redirect after successful login
+
       const redirect = searchParams.get('redirect') || '/dashboard';
       router.push(redirect);
     } catch (err: any) {
@@ -56,8 +62,8 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-green-50 flex justify-center px-4">
-      <div className="w-full max-w-md bg-white py-16 px-6 shadow-[inset_12px_0_24px_-12px_rgba(0,0,0,0.1),inset_-12px_0_24px_-12px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center">
+    <main className="min-h-screen bg-black flex justify-center px-4">
+      <div className="w-full max-w-md bg-black shadow-gray-500  py-16 px-6 shadow-[inset_12px_0_24px_-12px_rgba(0,0,0,0.1),inset_-12px_0_24px_-12px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center">
         <div className="px-6">
           <h2 className="text-2xl font-bold mb-4 text-green-700">Login</h2>
           {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -68,7 +74,7 @@ export default function LoginPage() {
               placeholder="Email or Username"
               onChange={handleChange}
               value={form.identifier}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
+              className="w-full px-3 py-2 text-green-700 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
               required
             />
             <input
@@ -77,7 +83,7 @@ export default function LoginPage() {
               placeholder="Password"
               onChange={handleChange}
               value={form.password}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
+              className="w-full px-3 py-2 border text-green-700 border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
               required
             />
             <Link

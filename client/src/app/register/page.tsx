@@ -23,20 +23,22 @@ export default function RegisterPage() {
     setError('');
 
     try {
-      await axios.post(`${API_URL}/auth/register`, form, {
+      await axios.post(`${API_URL}/auth/signup`, form, {
         withCredentials: true,
       });
+      alert('Registration successful!, please login');
       router.push('/login');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Registration failed');
+      console.log('err.response?.data?', err.response?.data);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <main className="min-h-screen bg-green-50 flex justify-center px-4">
-      <div className="w-full max-w-md bg-white py-16 px-6 shadow-[inset_12px_0_24px_-12px_rgba(0,0,0,0.1),inset_-12px_0_24px_-12px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center">
+    <main className="min-h-screen bg-black flex justify-center px-4">
+      <div className="w-full max-w-md bg-black shadow-gray-500  py-16 px-6 shadow-[inset_12px_0_24px_-12px_rgba(0,0,0,0.1),inset_-12px_0_24px_-12px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center">
         <div className="px-6">
           <h2 className="text-2xl font-bold mb-4 text-green-700">Register</h2>
           <form className="space-y-4" onSubmit={handleSubmit}>
@@ -45,7 +47,7 @@ export default function RegisterPage() {
               placeholder="Username"
               onChange={handleChange}
               value={form.username}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
+              className="w-full px-3 py-2 text-green-700 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
               required
             />
             <input
@@ -54,7 +56,7 @@ export default function RegisterPage() {
               placeholder="Email"
               onChange={handleChange}
               value={form.email}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
+              className="w-full px-3 py-2 text-green-700  border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
               required
             />
             <input
@@ -63,7 +65,7 @@ export default function RegisterPage() {
               placeholder="Password"
               onChange={handleChange}
               value={form.password}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
+              className="w-full px-3 py-2 text-green-700  border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
               required
             />
             <Link href="/login" className="text-green-600 mb-2 hover:underline">

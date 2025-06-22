@@ -17,6 +17,7 @@ import { RoomModule } from './room/room.module';
 import * as path from 'path';
 import { RoomGateway } from './room/room.gateway';
 import { VoteModule } from './vote/vote.module';
+import { VoteService } from './vote/vote.service';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { VoteModule } from './vote/vote.module';
     JwtService,
     RoomService,
     RoomGateway,
+    VoteService,
   ],
 })
 export class AppModule {}
