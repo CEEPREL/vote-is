@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/auth';
-import { getCookie, setCookie } from 'cookies-next/client';
+// import { getCookie, setCookie } from 'cookies-next/client';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -46,7 +46,7 @@ export default function Login() {
       localStorage.setItem('token', token);
       login();
 
-      console.log('gotten token', getCookie('token'));
+      // console.log('gotten token', getCookie('token'));
       // Redirect after successful login
 
       const redirectParam = searchParams.get('redirect');
