@@ -71,7 +71,7 @@ export class AuthService implements IAuth {
       res.cookie('accessToken', token, {
         httpOnly: true,
         expires: expiresAt,
-        secure: false,
+        secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         path: '/',
       });

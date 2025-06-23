@@ -45,13 +45,6 @@ export default function Login() {
       const token = data.token;
       localStorage.setItem('token', token);
       login();
-      console.log('cookiie setting');
-
-      setCookie('token', 'hello world', {
-        maxAge: 60 * 60 * 24 * 7,
-        path: '/',
-        sameSite: 'lax',
-      });
 
       console.log('gotten token', getCookie('token'));
       // Redirect after successful login
