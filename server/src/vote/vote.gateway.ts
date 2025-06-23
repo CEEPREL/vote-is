@@ -35,6 +35,8 @@ export class VoteGateway implements OnGatewayConnection, OnGatewayDisconnect {
     try {
       const cookieHeader = client.handshake.auth.token;
 
+      console.log('cookieHeader', cookieHeader);
+
       if (!cookieHeader) throw new UnauthorizedException('No token cookie');
 
       const payload = this.jwtService.verify(cookieHeader, {
