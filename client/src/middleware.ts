@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export function middleware(req: NextRequest) {
   const token = req.cookies.get('accessToken')?.value;
   const url = req.nextUrl.clone();
-
+  console.log('Middleware:', { token, pathname: url.pathname });
   // If logged in and trying to access auth pages, redirect to dashboard
   if (token && ['/', '/login', '/register'].includes(url.pathname)) {
     url.pathname = '/dashboard';
@@ -15,7 +15,10 @@ export function middleware(req: NextRequest) {
   if (!token && !publicPaths.includes(url.pathname)) {
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = '/login';
-    redirectUrl.searchParams.set('redirect', url.pathname);
+    redirectUrl.searchParams.set(
+      'redirect',
+      req.nextUrl.pathname + req.nextUrl.search,
+    );
     return NextResponse.redirect(redirectUrl);
   }
 
