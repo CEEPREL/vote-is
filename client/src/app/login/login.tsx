@@ -21,14 +21,11 @@ export default function Login() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    console.log('form: ', form);
     e.preventDefault();
     setLoading(true);
     setError('');
 
     try {
-      console.log('API_URL:', API_URL);
-
       const res = await fetch(`${API_URL}/auth/signin`, {
         method: 'POST',
         headers: {
@@ -47,7 +44,6 @@ export default function Login() {
       const token = data.token;
       localStorage.setItem('token', token);
       login();
-      console.log('Login success:', data.user);
 
       // Redirect after successful login
 

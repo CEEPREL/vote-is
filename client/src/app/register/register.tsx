@@ -30,7 +30,7 @@ export default function Register() {
       router.push('/login');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Registration failed');
-      console.log('err.response?.data?', err.response?.data);
+      console.error('err.response?.data?', err);
     } finally {
       setLoading(false);
     }

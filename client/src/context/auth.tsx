@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           credentials: 'include',
         }),
       ]);
-      console.log('logging out');
+
       localStorage.removeItem('token');
       setUser(null);
       router.push('/login');
