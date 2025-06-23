@@ -17,7 +17,7 @@ export class AuthController implements IAuth {
   }
 
   @Post('signin')
-  @HttpCode(200) // Set default success status
+  @HttpCode(200)
   async signIn(
     @Body() signInDto: SignInDto,
     @Res() res: Response,

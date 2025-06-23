@@ -67,6 +67,8 @@ let AuthService = class AuthService {
                 httpOnly: true,
                 expires: expiresAt,
                 secure: this.configService.getOrThrow('NODE_ENV') === 'production',
+                sameSite: 'none',
+                path: '/',
             });
             return res.status(200).json({
                 message: 'Login successful',
