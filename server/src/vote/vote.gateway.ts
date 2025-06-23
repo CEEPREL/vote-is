@@ -33,14 +33,11 @@ export class VoteGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   handleConnection(client: Socket) {
     try {
-      const cookieHeader = client.handshake.headers.cookie;
-      if (!cookieHeader) throw new UnauthorizedException('No cookies sent');
+      const cookieHeader = client.handshake.auth.token;
 
-      const cookies = cookie.parse(cookieHeader);
-      const token = cookies['accessToken'];
-      if (!token) throw new UnauthorizedException('No token cookie');
+      if (!cookieHeader) throw new UnauthorizedException('No token cookie');
 
-      const payload = this.jwtService.verify(token, {
+      const payload = this.jwtService.verify(cookieHeader, {
         secret: process.env.JWT_SECRET,
       });
 

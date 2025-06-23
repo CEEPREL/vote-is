@@ -19,7 +19,6 @@ const vote_service_1 = require("./vote.service");
 const vote_dto_1 = require("./dto/vote.dto");
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
-const cookie = require("cookie");
 let VoteGateway = class VoteGateway {
     voteService;
     jwtService;
@@ -30,14 +29,10 @@ let VoteGateway = class VoteGateway {
     }
     handleConnection(client) {
         try {
-            const cookieHeader = client.handshake.headers.cookie;
+            const cookieHeader = client.handshake.auth.token;
             if (!cookieHeader)
-                throw new common_1.UnauthorizedException('No cookies sent');
-            const cookies = cookie.parse(cookieHeader);
-            const token = cookies['accessToken'];
-            if (!token)
                 throw new common_1.UnauthorizedException('No token cookie');
-            const payload = this.jwtService.verify(token, {
+            const payload = this.jwtService.verify(cookieHeader, {
                 secret: process.env.JWT_SECRET,
             });
             client.data.user = payload;

@@ -12,14 +12,14 @@ export declare class RoomController {
             text: string;
             roomId: string;
         }[];
-        description: string;
         title: string;
+        description: string;
         deadline: Date;
     }>;
     getUserRooms(req: any): Promise<{
-        description: string;
         id: string;
         title: string;
+        description: string;
     }[]>;
     getRoomBySlug(id: string): Promise<{
         statusCode: number;
@@ -42,9 +42,9 @@ export declare class RoomController {
                 username: string;
             };
         } & {
-            description: string;
             id: string;
             title: string;
+            description: string;
             creatorId: string;
             deadline: Date;
         };

@@ -11,8 +11,8 @@ export declare class RoomService {
             text: string;
             roomId: string;
         }[];
-        description: string;
         title: string;
+        description: string;
         deadline: Date;
     }>;
     getRoomBySlug(id: string): Promise<{
@@ -33,15 +33,15 @@ export declare class RoomService {
             username: string;
         };
     } & {
-        description: string;
         id: string;
         title: string;
+        description: string;
         creatorId: string;
         deadline: Date;
     }>;
     getRoomsForUser(userId: string): Promise<{
-        description: string;
         id: string;
         title: string;
+        description: string;
     }[]>;
 }
