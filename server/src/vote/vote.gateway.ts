@@ -69,6 +69,17 @@ export class VoteGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
   }
 
+  @SubscribeMessage('sendMessage')
+  handleSendMessage(
+    @MessageBody() data: { roomId: string; message: string; userName: string },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const { roomId, message, userName } = data;
+    const timestamp = Date.now();
+
+    this.server.to(roomId).emit('newMessage', { userName, message, timestamp });
+  }
+
   @SubscribeMessage('castVote')
   async handleCastVote(
     @MessageBody() voteDto: VoteDto,

@@ -13,6 +13,11 @@ export declare class VoteGateway implements OnGatewayConnection, OnGatewayDiscon
     handleJoinRoom(data: {
         roomId: string;
     }, client: Socket): void;
+    handleSendMessage(data: {
+        roomId: string;
+        message: string;
+        userName: string;
+    }, client: Socket): void;
     handleCastVote(voteDto: VoteDto, client: Socket): Promise<{
         status: string;
         vote: {

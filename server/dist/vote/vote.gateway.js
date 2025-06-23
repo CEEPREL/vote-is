@@ -57,6 +57,11 @@ let VoteGateway = class VoteGateway {
             client.to(data.roomId).emit('userJoined', `someone joined the room`);
         }
     }
+    handleSendMessage(data, client) {
+        const { roomId, message, userName } = data;
+        const timestamp = Date.now();
+        this.server.to(roomId).emit('newMessage', { userName, message, timestamp });
+    }
     async handleCastVote(voteDto, client) {
         try {
             const user = client.data.user;
@@ -95,6 +100,14 @@ __decorate([
     __metadata("design:paramtypes", [Object, socket_io_1.Socket]),
     __metadata("design:returntype", void 0)
 ], VoteGateway.prototype, "handleJoinRoom", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('sendMessage'),
+    __param(0, (0, websockets_1.MessageBody)()),
+    __param(1, (0, websockets_1.ConnectedSocket)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, socket_io_1.Socket]),
+    __metadata("design:returntype", void 0)
+], VoteGateway.prototype, "handleSendMessage", null);
 __decorate([
     (0, websockets_1.SubscribeMessage)('castVote'),
     __param(0, (0, websockets_1.MessageBody)()),

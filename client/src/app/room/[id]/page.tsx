@@ -65,7 +65,7 @@ export default function RoomPage() {
         // Initialize socket after successful fetch
         const socket = io(process.env.NEXT_PUBLIC_API_URL || '', {
           withCredentials: true,
-          auth: { token },
+          transports: ['websocket', 'polling'],
         });
 
         socketRef.current = socket;
@@ -86,9 +86,9 @@ export default function RoomPage() {
           ]);
         });
 
-        socket.on('newMessage', (msg: Message) => {
-          setMessages((prev) => [...prev, msg]);
-        });
+        // socket.on('newMessage', (msg: Message) => {
+        //   setMessages((prev) => [...prev, msg]);
+        // });
 
         socket.on('userJoined', (msg: string) => {
           setMessages((prev) => [
