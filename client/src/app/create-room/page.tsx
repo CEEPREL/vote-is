@@ -59,11 +59,10 @@ export default function CreateRoomPage() {
         credentials: 'include',
         body: JSON.stringify(data),
       });
-      console.log('result', res);
 
       if (!res.ok) throw new Error('Failed to create room');
       const result = await res.json();
-      console.log(result);
+
       alert('Room created successfully!');
       router.push(`/dashboard?new=${result.slug}`);
     } catch (err) {
@@ -90,7 +89,7 @@ export default function CreateRoomPage() {
             <input
               {...register('title')}
               placeholder="Title"
-              className="w-full px-3 py-2 border border-2 border-green-900 text-gray-400 rounded"
+              className="w-full px-3 py-2 border  border-green-900 text-gray-400 rounded"
             />
             {errors.title && (
               <p className="text-red-500 text-sm">{errors.title.message}</p>
@@ -103,11 +102,6 @@ export default function CreateRoomPage() {
               placeholder="Description"
               className="w-full px-3 py-2 text-gray-400  border-2 border-green-900 rounded"
             />
-            {errors.description && (
-              <p className="text-red-500  text-sm">
-                {errors.description.message}
-              </p>
-            )}
           </div>
 
           <div className="space-y-2">
@@ -117,7 +111,7 @@ export default function CreateRoomPage() {
                 <input
                   {...register(`options.${index}`)}
                   placeholder={`Option ${index + 1}`}
-                  className="flex-1 text-gray-400  border-2 border-green-900 px-3 py-2 border rounded"
+                  className="flex-1 text-gray-400  border-green-900 px-3 py-2 border rounded"
                 />
                 {fields.length > 2 && (
                   <button
@@ -130,6 +124,11 @@ export default function CreateRoomPage() {
                 )}
               </div>
             ))}
+            {errors.description && (
+              <p className="text-red-500  text-sm">
+                {errors.description.message}
+              </p>
+            )}
             {fields.length < 5 && (
               <button
                 type="button"

@@ -3,8 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export function middleware(req: NextRequest) {
   const token = req.cookies.get('accessToken')?.value;
   const url = req.nextUrl.clone();
-  console.log('Middleware:', { token, pathname: url.pathname });
-  // If logged in and trying to access auth pages, redirect to dashboard
+
   if (token && ['/', '/login', '/register'].includes(url.pathname)) {
     url.pathname = '/dashboard';
     return NextResponse.redirect(url);

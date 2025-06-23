@@ -1,7 +1,11 @@
-import { NextResponse } from 'next/server';
+'use server';
 
-export function logout() {
-  const response = NextResponse.redirect('/login');
-  response.cookies.delete('accessToken');
-  return response;
+import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+
+export async function POST() {
+  const cookieStore = await cookies();
+  cookieStore.delete('accessToken');
+
+  return NextResponse.json({ message: 'Logged out' });
 }
