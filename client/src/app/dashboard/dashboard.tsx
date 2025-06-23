@@ -12,8 +12,14 @@ export default function Dashboard() {
   const searchParams = useSearchParams();
   const newRoomSlug = searchParams.get('new');
   const { user, logout, token } = useAuth();
+  const [copiedRoomId, setCopiedRoomId] = useState<string | null>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+
+  // Simple mobile detection
+  const isMobile =
+    typeof navigator !== 'undefined' &&
+    /Mobi|Android/i.test(navigator.userAgent);
 
   useEffect(() => {
     async function fetchUserData() {
@@ -46,16 +52,39 @@ export default function Dashboard() {
     fetchUserData();
   }, [user, router, API_URL, token]);
 
-  const handleJoinRoom = (roomId: string) => {
-    router.push(`/room/${roomId}`);
-  };
-
   useEffect(() => {
     if (newRoomSlug) {
       alert(`Room "${newRoomSlug}" created successfully!`);
       router.replace('/dashboard');
     }
   }, [newRoomSlug, router]);
+
+  const handleJoinRoom = (roomId: string) => {
+    router.push(`/room/${roomId}`);
+  };
+
+  const handleShare = async (roomId: string) => {
+    const shareUrl = `${window.location.origin}/room/${roomId}`;
+    if (isMobile && navigator.share) {
+      try {
+        await navigator.share({
+          title: `Join room`,
+          url: shareUrl,
+        });
+      } catch (err) {
+        console.error('Share failed:', err);
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        alert('Link copied!');
+        setCopiedRoomId(roomId);
+        setTimeout(() => setCopiedRoomId(null), 2000);
+      } catch (err) {
+        console.error('Failed to copy:', err);
+      }
+    }
+  };
 
   if (loading)
     return (
@@ -66,7 +95,7 @@ export default function Dashboard() {
 
   return (
     <main className="flex items-center justify-center min-h-screen w-screen bg-black text-green-400 px-4">
-      <div className="max-w-4xl w-full shadow-gray-500  bg-black p-8 rounded-lg shadow-lg flex flex-col">
+      <div className="max-w-4xl w-full shadow-gray-500 bg-black p-8 rounded-lg shadow-lg flex flex-col">
         <header className="mb-8 text-center">
           <h1 className="text-3xl font-extrabold tracking-wide mb-1">
             Welcome, {user?.name || 'User'}!
@@ -75,6 +104,7 @@ export default function Dashboard() {
             Ready to manage your rooms?
           </p>
         </header>
+
         <button
           onClick={() => logout()}
           className="mb-8 inline-block bg-red-600 hover:bg-red-700 text-black font-semibold py-3 rounded-lg text-center shadow-md transition transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-red-500"
@@ -103,18 +133,32 @@ export default function Dashboard() {
               {rooms.map((room) => (
                 <li
                   key={room.id}
-                  onClick={() => handleJoinRoom(room.id)}
-                  className="p-4 border border-green-600 rounded-lg hover:bg-green-900 transition cursor-pointer shadow-inner"
+                  className="p-4 border border-green-600 rounded-lg shadow-inner hover:bg-green-900 transition"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border border-green-600 rounded-md mb-3 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-green-500">
                     <p className="text-xl font-semibold mb-2 sm:mb-0">
                       {room.title}
                     </p>
                     <div className="flex gap-3">
-                      <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition">
+                      <button
+                        onClick={() => handleJoinRoom(room.id)}
+                        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+                      >
                         Join
                       </button>
-                      <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition">
+
+                      <button
+                        onClick={() => handleShare(room.id)}
+                        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                      >
+                        {copiedRoomId === room.id ? 'Copied!' : 'Share'}
+                      </button>
+
+                      <button
+                        // decorative only — no onClick
+                        className="bg-red-600 text-white px-4 py-2 rounded cursor-not-allowed opacity-50"
+                        disabled
+                      >
                         Delete
                       </button>
                     </div>
