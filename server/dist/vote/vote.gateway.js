@@ -30,6 +30,7 @@ let VoteGateway = class VoteGateway {
     handleConnection(client) {
         try {
             const cookieHeader = client.handshake.auth.token;
+            console.log('cookieHeader', cookieHeader);
             if (!cookieHeader)
                 throw new common_1.UnauthorizedException('No token cookie');
             const payload = this.jwtService.verify(cookieHeader, {
