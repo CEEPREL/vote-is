@@ -89,7 +89,7 @@ export default function CreateRoomPage() {
             <input
               {...register('title')}
               placeholder="Title"
-              className="w-full px-3 py-2 border  border-green-900 text-gray-400 rounded"
+              className="w-full px-3 py-2 border bg-gray-700 border-green-900 text-gray-400 rounded"
             />
             {errors.title && (
               <p className="text-red-500 text-sm">{errors.title.message}</p>
@@ -100,18 +100,18 @@ export default function CreateRoomPage() {
             <textarea
               {...register('description')}
               placeholder="Description"
-              className="w-full px-3 py-2 text-gray-400  border-2 border-green-900 rounded"
+              className="w-full px-3 py-2 text-gray-400 bg-gray-700  border-2 border-green-900 rounded"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="font-semibold text-green-700">Options</label>
+            <label className="font-semibold text-green-700">Options, </label>
             {fields.map((field, index) => (
               <div key={field.id} className="flex space-x-2">
                 <input
                   {...register(`options.${index}`)}
                   placeholder={`Option ${index + 1}`}
-                  className="flex-1 text-gray-400  border-green-900 px-3 py-2 border rounded"
+                  className="flex-1 text-gray-400 bg-gray-700 border-green-900 px-3 py-2 border rounded"
                 />
                 {fields.length > 2 && (
                   <button
@@ -124,18 +124,21 @@ export default function CreateRoomPage() {
                 )}
               </div>
             ))}
-            {errors.description && (
-              <p className="text-red-500  text-sm">
-                {errors.description.message}
-              </p>
-            )}
+
             {fields.length < 5 && (
               <button
                 type="button"
                 onClick={() => append('')}
                 className="text-sm text-green-600 hover:underline"
               >
-                + Add Option
+                + Click here to add Option{' '}
+                <span>
+                  {fields.length > 2 && errors.description && (
+                    <p className="text-red-500  text-sm">
+                      {errors.description.message}
+                    </p>
+                  )}
+                </span>
               </button>
             )}
             {errors.options && (
@@ -149,7 +152,7 @@ export default function CreateRoomPage() {
             <input
               type="datetime-local"
               {...register('votingDeadline')}
-              className="w-full px-3 py-2 text-gray-600 border-green-900 border-2 rounded"
+              className="w-full px-3 py-2 text-green-600 bg-gray-700 border-green-900 border-2 rounded"
             />
             {errors.votingDeadline && (
               <p className="text-red-500 text-sm">
