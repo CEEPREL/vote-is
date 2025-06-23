@@ -17,10 +17,10 @@ export declare class VoteGateway implements OnGatewayConnection, OnGatewayDiscon
         status: string;
         vote: {
             id: string;
-            optionId: string;
             userId: string | null;
             roomId: string;
             createdAt: Date;
+            optionId: string;
         };
         message?: undefined;
     } | {
