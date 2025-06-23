@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useAuth } from '@/context/auth';
+// import { useAuth } from '@/context/auth';
 import { getCookie, setCookie } from 'cookies-next/client';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -11,7 +11,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export default function Login() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { login } = useAuth();
+  // const { login } = useAuth();
 
   const [form, setForm] = useState({ identifier: '', password: '' });
   const [error, setError] = useState('');
