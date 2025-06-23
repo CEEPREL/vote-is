@@ -51,7 +51,12 @@ export default function Login() {
 
       // Redirect after successful login
 
-      const redirect = searchParams.get('redirect') || '/dashboard';
+      const redirectParam = searchParams.get('redirect');
+      const redirect =
+        redirectParam && redirectParam.startsWith('/')
+          ? redirectParam
+          : '/dashboard';
+
       router.push(redirect);
     } catch (err: any) {
       console.error('Login error:', err.message);

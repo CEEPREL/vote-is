@@ -86,13 +86,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setError(null);
 
     try {
-      await fetch(`${API_URL}/auth/signout`, {
-        method: 'POST',
-        credentials: 'include',
-      });
-      router.push('/login');
+      await Promise.all([
+        fetch('/api/logout', { method: 'POST', credentials: 'include' }),
+        fetch(`${API_URL}/auth/signout`, {
+          method: 'POST',
+          credentials: 'include',
+        }),
+      ]);
+      console.log('logging out');
       localStorage.removeItem('token');
       setUser(null);
+      router.push('/login');
     } catch (err: any) {
       setError(err.message);
       throw err;
