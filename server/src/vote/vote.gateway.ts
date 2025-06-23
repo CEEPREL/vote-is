@@ -14,7 +14,14 @@ import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as cookie from 'cookie';
 
-@WebSocketGateway({ cors: true })
+@WebSocketGateway({
+  cors: {
+    origin: process.env.CORS_ORIGIN || 'https://localhost:3001',
+    credentials: true,
+    methods: ['GET', 'POST'],
+    transports: ['websocket', 'polling'],
+  },
+})
 export class VoteGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
@@ -39,9 +46,9 @@ export class VoteGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
       client.data.user = payload;
 
-      console.log(`✅ Client connected: ${client.id} as user ${payload.id}`);
+      console.log(` Client connected: ${client.id} as user ${payload.id}`);
     } catch (err) {
-      console.log(`❌ Socket auth failed: ${err.message}`);
+      console.log(` Socket auth failed: ${err.message}`);
       client.disconnect();
     }
   }

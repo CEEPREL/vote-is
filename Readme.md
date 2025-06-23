@@ -63,12 +63,17 @@ The application allows users to create decision rooms, share them, vote anonymou
 
 ```
 project-root/
-├── client/                  # Next.js frontend
-│   ├── pages/
+├── client/
+│   ├── src/
+│   │   └── app/
 │   ├── components/
-│   ├── hooks/
 │   └── utils/
-├── server/                  # NestJS backend
+├── .env
+├── package.json
+├── tsconfig.json
+├── tsconfig.server.json
+
+├── server/
 │   ├── auth/
 │   ├── user/
 │   ├── room/
@@ -76,11 +81,14 @@ project-root/
 │   ├── gateway/
 │   ├── prisma/
 │   ├── common/
+│   ├── .env
 │   └── main.ts
-├── prisma/                  # Prisma schema and migrations
-├── .env
-├── .env.example
+├── prisma/
+│   ├── schema.prisma
+│   └── migrations/
+│
 ├── README.md
+├── .env
 ```
 
 ---
@@ -150,7 +158,9 @@ Copy `.env.example` to `.env` and populate values:
 ```env
 DATABASE_URL=postgresql://user:password@localhost:5432/voting_db
 JWT_SECRET=your-super-secret
-SOCKET_PORT=3001
+PORT=3001
+JWT_EXPIRATION=360000000
+NODE_ENV=development
 NEXT_PUBLIC_BACKEND_URL=http://localhost:3000
 ```
 

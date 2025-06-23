@@ -41,10 +41,10 @@ let VoteGateway = class VoteGateway {
                 secret: process.env.JWT_SECRET,
             });
             client.data.user = payload;
-            console.log(`✅ Client connected: ${client.id} as user ${payload.id}`);
+            console.log(` Client connected: ${client.id} as user ${payload.id}`);
         }
         catch (err) {
-            console.log(`❌ Socket auth failed: ${err.message}`);
+            console.log(` Socket auth failed: ${err.message}`);
             client.disconnect();
         }
     }
@@ -105,7 +105,14 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], VoteGateway.prototype, "handleCastVote", null);
 exports.VoteGateway = VoteGateway = __decorate([
-    (0, websockets_1.WebSocketGateway)({ cors: true }),
+    (0, websockets_1.WebSocketGateway)({
+        cors: {
+            origin: process.env.CORS_ORIGIN || 'https://localhost:3001',
+            credentials: true,
+            methods: ['GET', 'POST'],
+            transports: ['websocket', 'polling'],
+        },
+    }),
     __metadata("design:paramtypes", [vote_service_1.VoteService,
         jwt_1.JwtService])
 ], VoteGateway);
