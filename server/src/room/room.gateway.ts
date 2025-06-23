@@ -12,11 +12,11 @@ export class RoomGateway {
   server: Server;
 
   handleConnection(client: Socket) {
-    console.log(`🔌 Connected: ${client.data} ${client.id} `);
+    console.log(`Connected: ${client.data} ${client.id} `);
   }
 
   handleDisconnect(client: Socket) {
-    console.log(`❌ Disconnected: ${client.id}`);
+    console.log(` Disconnected: ${client.id}`);
   }
 
   broadcastRoomCreated(room: any) {
