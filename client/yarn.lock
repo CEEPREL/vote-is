@@ -1119,10 +1119,22 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
+cookie@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/cookie/-/cookie-1.0.2.tgz#27360701532116bd3f1f9416929d176afe1e4610"
+  integrity sha512-9Kr/j4O16ISv8zBBhJoi4bXOYNTkFLOqSL3UDB0njXxCXNezjeyVrJyGOWtgfs/q2km1gwBcfH8q1yEGoMYunA==
+
 cookie@~0.7.2:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.7.2.tgz#556369c472a2ba910f2979891b526b3436237ed7"
   integrity sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==
+
+cookies-next@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/cookies-next/-/cookies-next-6.0.0.tgz#d560e3761169652cadb222079cb68bee25400548"
+  integrity sha512-Xq87TPIe7faqluf7gr3mobzO2JRe65oX+pnv4nrnDE/ak49Ic6QhNZSLCk+E5xOKtpVm1EoEazu0iBNyr5TXTA==
+  dependencies:
+    cookie "^1.0.1"
 
 cors@~2.8.5:
   version "2.8.5"
@@ -2160,6 +2172,11 @@ jiti@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-2.4.2.tgz#d19b7732ebb6116b06e2038da74a55366faef560"
   integrity sha512-rg9zJN+G4n2nfJl5MW3BMygZX56zKPNVEYYqq7adpmMh4Jn2QNEwhvQlFy6jPVdcod7txZtKHWnyZiA3a0zP7A==
+
+jose@^6.0.11:
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-6.0.11.tgz#0b7ea8b3b21a1bda5e00255a044c3a0e43270882"
+  integrity sha512-QxG7EaliDARm1O1S8BGakqncGT9s25bKL1WSf6/oa17Tkqwi8D2ZNglqCF+DsYF88/rV66Q/Q2mFAy697E1DUg==
 
 js-cookie@^3.0.5:
   version "3.0.5"
