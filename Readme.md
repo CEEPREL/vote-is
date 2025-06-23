@@ -2,6 +2,15 @@
 
 This repository contains the fullstack implementation of a real-time collaborative voting application. The backend is built with **NestJS**, **PostgreSQL (via Prisma)**, and **Socket.IO**. The frontend is built with **Next.js**, styled using **Tailwind CSS**, and handles real-time updates with the **Socket.IO client**.
 
+A visual preview of the application
+https://github.com/CEEPREL/vote-is/blob/94b929aa91eb928c9d0337379f69adcddbb5f694/client/public/Screenshot%202025-06-22%20at%2020.03.01.png
+https://github.com/CEEPREL/vote-is/blob/94b929aa91eb928c9d0337379f69adcddbb5f694/client/public/Screenshot%202025-06-22%20at%2020.03.14.png
+https://github.com/CEEPREL/vote-is/blob/94b929aa91eb928c9d0337379f69adcddbb5f694/client/public/Screenshot%202025-06-22%20at%2020.03.51.png
+https://github.com/CEEPREL/vote-is/blob/94b929aa91eb928c9d0337379f69adcddbb5f694/client/public/Screenshot%202025-06-22%20at%2020.04.19.png
+https://github.com/CEEPREL/vote-is/blob/78570301ba275b466ed2bb1f8292d8c298a8b148/client/public/Screenshot%202025-06-23%20at%2008.56.32.png
+https://github.com/CEEPREL/vote-is/blob/78570301ba275b466ed2bb1f8292d8c298a8b148/client/public/Screenshot%202025-06-23%20at%2008.56.02.png
+https://github.com/CEEPREL/vote-is/blob/78570301ba275b466ed2bb1f8292d8c298a8b148/client/public/Screenshot%202025-06-23%20at%2008.55.45.png
+
 The application allows users to create decision rooms, share them, vote anonymously or as registered users, and view real-time results. Authentication is handled securely using **JWT with HTTP-only cookies**.
 
 ---
