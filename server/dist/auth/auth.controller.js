@@ -26,7 +26,10 @@ let AuthController = class AuthController {
         return res;
     }
     async signIn(signInDto, res) {
-        return this.authService.signIn(signInDto, res);
+        const response = await this.authService.signIn(signInDto, res);
+        const setCookieHeader = response.getHeader('Set-Cookie');
+        console.log('Set-Cookie header:', setCookieHeader);
+        return response;
     }
     signOut(res) {
         const result = this.authService.signOut(res);

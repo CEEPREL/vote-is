@@ -3,14 +3,15 @@
 import { useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useAuth } from '@/context/auth';
+// import { useAuth } from '@/context/auth';
+import { getCookie, setCookie } from 'cookies-next/client';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Login() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { login } = useAuth();
+  // const { login } = useAuth();
 
   const [form, setForm] = useState({ identifier: '', password: '' });
   const [error, setError] = useState('');
@@ -43,8 +44,16 @@ export default function Login() {
       const data = await res.json();
       const token = data.token;
       localStorage.setItem('token', token);
-      login();
+      // login();
+      console.log('cookiie setting');
 
+      setCookie('token', 'hello world', {
+        maxAge: 60 * 60 * 24 * 7,
+        path: '/',
+        sameSite: 'lax',
+      });
+
+      console.log('gotten token', getCookie('token'));
       // Redirect after successful login
 
       const redirectParam = searchParams.get('redirect');

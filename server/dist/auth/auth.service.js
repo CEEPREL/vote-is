@@ -63,6 +63,13 @@ let AuthService = class AuthService {
                 throw new Error('Invalid credentials');
             }
             const { token, expiresAt } = this.jwtTokenService.generateToken(user.id, user.username, user.email);
+            res.cookie('accessToken', token, {
+                httpOnly: true,
+                expires: expiresAt,
+                secure: false,
+                sameSite: 'lax',
+                path: '/',
+            });
             return res.status(200).json({
                 message: 'Login successful',
                 token,

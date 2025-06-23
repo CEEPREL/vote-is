@@ -22,7 +22,13 @@ export class AuthController implements IAuth {
     @Body() signInDto: SignInDto,
     @Res() res: Response,
   ): Promise<Response> {
-    return this.authService.signIn(signInDto, res);
+    const response = await this.authService.signIn(signInDto, res);
+
+    // After cookie is set by authService.signIn
+    const setCookieHeader = response.getHeader('Set-Cookie');
+    console.log('Set-Cookie header:', setCookieHeader);
+
+    return response;
   }
 
   @Post('signout')
