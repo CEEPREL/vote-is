@@ -72,7 +72,7 @@ export class AuthService implements IAuth {
         httpOnly: true,
         expires: expiresAt,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
         path: '/',
       });
 
