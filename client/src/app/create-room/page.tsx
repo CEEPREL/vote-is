@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/auth';
+import { useEffect } from 'react';
 
 const schema = z.object({
   title: z.string().min(3, 'Title is too short'),
@@ -44,16 +45,22 @@ export default function CreateRoomPage() {
     name: 'options',
   });
 
+  useEffect(() => {
+    if (fields.length === 0) {
+      append('');
+      append('');
+    }
+  }, [append, fields]);
+
   const onSubmit = async (data: FormData) => {
     const cleanedData = {
       ...data,
       options: data.options.filter((opt) => opt.trim() !== ''),
     };
 
-    if (cleanedData.options.length < 2) {
-      alert('At least two valid options are required.');
-      return;
-    }
+    // if (data.options.length < 2) {
+    alert('At least two valid options are required.');
+    // }
 
     try {
       const res = await fetch(`/rooms`, {
@@ -119,20 +126,28 @@ export default function CreateRoomPage() {
           <div className="space-y-2">
             <label className="font-semibold text-green-700">Options</label>
             {fields.map((field, index) => (
-              <div key={field.id} className="flex space-x-2">
-                <input
-                  {...register(`options.${index}`)}
-                  placeholder={`Option ${index + 1}`}
-                  className="flex-1 text-gray-400 bg-gray-700 border-green-900 px-3 py-2 border rounded"
-                />
-                {fields.length > 2 && (
-                  <button
-                    type="button"
-                    onClick={() => remove(index)}
-                    className="text-red-500"
-                  >
-                    ✕
-                  </button>
+              <div className="flex flex-col">
+                <div key={field.id} className="flex space-x-2">
+                  <input
+                    {...register(`options.${index}`)}
+                    placeholder={`Option ${index + 1}`}
+                    className="flex-1 text-gray-400 bg-gray-700 border-green-900 px-3 py-2 border rounded"
+                  />
+                  {fields.length > 2 && (
+                    <button
+                      type="button"
+                      onClick={() => remove(index)}
+                      className="text-red-500"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+                {/* ✅ Show error for this specific option */}
+                {errors.options && errors.options[index]?.message && (
+                  <p className="text-red-500 text-sm">
+                    {errors.options[index]?.message}
+                  </p>
                 )}
               </div>
             ))}
@@ -143,7 +158,8 @@ export default function CreateRoomPage() {
                 onClick={() => append('')}
                 className="text-sm text-green-600 hover:underline"
               >
-                + Click here to add Option
+                + Click here to add Option{' '}
+                <span className="bold text-lg">At least 2!</span>
               </button>
             )}
 
