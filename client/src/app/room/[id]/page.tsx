@@ -42,16 +42,13 @@ export default function RoomPage() {
       try {
         setLoading(true);
 
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/vote/${roomId}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-            credentials: 'include',
+        const res = await fetch(`/vote/${roomId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
-        );
+          credentials: 'include',
+        });
 
         if (!res.ok) throw new Error('Failed to fetch room data');
 
