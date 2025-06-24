@@ -43,12 +43,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       try {
         const res = await fetch(`${API_URL}/user/profile`, {
-          credentials: 'include',
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          credentials: 'include',
         });
 
         if (!res.ok) {
