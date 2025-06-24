@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setError(null);
 
       try {
-        const res = await fetch(`${API_URL}/user/profile`, {
+        const res = await fetch(`/user/profile`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       await Promise.all([
         fetch('/api/logout', { method: 'POST', credentials: 'include' }),
-        fetch(`${API_URL}/auth/signout`, {
+        fetch(`/auth/signout`, {
           method: 'POST',
           credentials: 'include',
         }),

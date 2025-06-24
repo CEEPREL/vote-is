@@ -49,7 +49,7 @@ export default function CreateRoomPage() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const res = await fetch(`${API_URL}/rooms`, {
+      const res = await fetch(`/rooms`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

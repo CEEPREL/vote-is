@@ -14,8 +14,24 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/:path*',
-        destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
+        source: '/auth/:path*',
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/auth/:path*`,
+      },
+      {
+        source: '/rooms/:path*',
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/rooms/:path*`,
+      },
+      {
+        source: '/rooms',
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/rooms`,
+      },
+      {
+        source: '/vote/:path*',
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/vote/:path*`,
+      },
+      {
+        source: '/user/:path*',
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/user/:path*`,
       },
     ];
   },

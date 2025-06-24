@@ -26,7 +26,7 @@ export default function Dashboard() {
       try {
         if (!user) return;
 
-        const response = await fetch(`${API_URL}/rooms`, {
+        const response = await fetch(`/rooms`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
