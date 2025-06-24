@@ -23,7 +23,7 @@ export default function Register() {
     setError('');
 
     try {
-      await axios.post(`${API_URL}/auth/signup`, form, {
+      await axios.post(`/auth/signup`, form, {
         withCredentials: true,
       });
       alert('Registration successful!, please login');
