@@ -6,26 +6,24 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/auth';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 const schema = z.object({
   title: z.string().min(3, 'Title is too short'),
   description: z.string().min(5, 'Description is required'),
-  options: z.array(z.string().min(1)).min(2).max(5),
+  options: z
+    .array(z.string().min(1, 'Each option must not be empty'))
+    .min(2, 'At least two options are required')
+    .max(5, 'No more than five options allowed'),
   votingDeadline: z.string().refine((val) => new Date(val) > new Date(), {
     message: 'Deadline must be in the future',
   }),
 });
 
-type FormData = {
-  title: string;
-  description: string;
-  options: string[];
-  votingDeadline: string;
-};
+type FormData = z.infer<typeof schema>;
 
 export default function CreateRoomPage() {
   const router = useRouter();
+  const { token } = useAuth();
+
   const {
     register,
     control,
@@ -45,9 +43,18 @@ export default function CreateRoomPage() {
     control,
     name: 'options',
   });
-  const { token } = useAuth();
 
   const onSubmit = async (data: FormData) => {
+    const cleanedData = {
+      ...data,
+      options: data.options.filter((opt) => opt.trim() !== ''),
+    };
+
+    if (cleanedData.options.length < 2) {
+      alert('At least two valid options are required.');
+      return;
+    }
+
     try {
       const res = await fetch(`/rooms`, {
         method: 'POST',
@@ -56,7 +63,7 @@ export default function CreateRoomPage() {
           Authorization: `Bearer ${token}`,
         },
         credentials: 'include',
-        body: JSON.stringify(data),
+        body: JSON.stringify(cleanedData),
       });
 
       if (!res.ok) throw new Error('Failed to create room');
@@ -73,7 +80,7 @@ export default function CreateRoomPage() {
   return (
     <main className="min-h-screen relative bg-black flex justify-center px-4 py-10">
       <div className="bg-black shadow-lg shadow-gray-500 rounded-xl w-full max-w-xl p-6 space-y-4">
-        <div className="flex gap-5 ">
+        <div className="flex gap-5">
           <button
             className="text-green-700 cursor-pointer"
             onClick={() => router.push('/dashboard')}
@@ -81,6 +88,7 @@ export default function CreateRoomPage() {
             Back
           </button>
         </div>
+
         <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-4">
           <h1 className="text-xl font-bold text-green-700">Create Room</h1>
 
@@ -99,12 +107,17 @@ export default function CreateRoomPage() {
             <textarea
               {...register('description')}
               placeholder="Description"
-              className="w-full px-3 py-2 text-gray-400 bg-gray-700  border-2 border-green-900 rounded"
+              className="w-full px-3 py-2 text-gray-400 bg-gray-700 border-2 border-green-900 rounded"
             />
+            {errors.description && (
+              <p className="text-red-500 text-sm">
+                {errors.description.message}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
-            <label className="font-semibold text-green-700">Options, </label>
+            <label className="font-semibold text-green-700">Options</label>
             {fields.map((field, index) => (
               <div key={field.id} className="flex space-x-2">
                 <input
@@ -130,20 +143,12 @@ export default function CreateRoomPage() {
                 onClick={() => append('')}
                 className="text-sm text-green-600 hover:underline"
               >
-                + Click here to add Option{' '}
-                <span>
-                  {fields.length > 2 && errors.description && (
-                    <p className="text-red-500  text-sm">
-                      {errors.description.message}
-                    </p>
-                  )}
-                </span>
+                + Click here to add Option
               </button>
             )}
-            {errors.options && (
-              <p className="text-red-500 text-sm">
-                {errors.options.message as string}
-              </p>
+
+            {errors.options?.message && (
+              <p className="text-red-500 text-sm">{errors.options.message}</p>
             )}
           </div>
 
