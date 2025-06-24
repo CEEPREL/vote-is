@@ -73,12 +73,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [token]);
 
   const login = async () => {
-    // Optionally you can update token here after login flow
     if (typeof window !== 'undefined') {
       const savedToken = localStorage.getItem('token');
       setToken(savedToken);
     }
-    // refreshUser will automatically be called via the effect above
   };
 
   const logout = async () => {
